@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35327.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BakeryShop.App", "BakeryShop.App\BakeryShop.App.csproj", "{70D7A188-825B-4074-849F-BB179D0BCED9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BakeryShop.Shared", "BakeryShop.Shared\BakeryShop.Shared.csproj", "{C68D5033-AF10-4D3E-8725-7866A26E70BC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{70D7A188-825B-4074-849F-BB179D0BCED9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70D7A188-825B-4074-849F-BB179D0BCED9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70D7A188-825B-4074-849F-BB179D0BCED9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70D7A188-825B-4074-849F-BB179D0BCED9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C68D5033-AF10-4D3E-8725-7866A26E70BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C68D5033-AF10-4D3E-8725-7866A26E70BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C68D5033-AF10-4D3E-8725-7866A26E70BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C68D5033-AF10-4D3E-8725-7866A26E70BC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0260E553-62B0-430C-8CE7-22F1AFE5B59A}
+	EndGlobalSection
+EndGlobal
