@@ -3,14 +3,21 @@ using Microsoft.AspNetCore.Components;
 
 namespace BakeryShop.App.Components.Pages
 {
-    public partial class EmployeeOverview
+    public partial class EmployeeDetail
     {
+        [Parameter]
+        public string EmployeeId { get; set; }
+        public Employee Employee { get; set; } = new Employee();
+
         protected override Task OnInitializedAsync()
         {
 
             InitializeCountries();
             InitializeJobCategories();
             InitializeEmployees();
+
+            Employee = Employees.FirstOrDefault(e => e.EmployeeId == int.Parse(EmployeeId));
+
 
             return base.OnInitializedAsync();
         }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BethanysPieShopHRM.Shared
+namespace BakeryShop.Shared
 {
     public class Employee
     {

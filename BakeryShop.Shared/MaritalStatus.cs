@@ -1,4 +1,4 @@
-﻿namespace BethanysPieShopHRM.Shared
+﻿namespace BakeryShop.Shared
 {
     public enum MaritalStatus
     {
