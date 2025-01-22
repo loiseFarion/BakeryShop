@@ -4,6 +4,7 @@ using BakeryShop.Shared;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace BakeryShop.App.Services
 {
@@ -18,7 +19,32 @@ namespace BakeryShop.App.Services
 
         public async Task<Employee> AddEmployee(Employee employee)
         {
-            var employeeJson = new StringContent(JsonSerializer.Serialize(employee), Encoding.UTF8,"application/json");
+            // Preenchendo os objetos aninhados se estiverem nulos
+            if (employee.Country == null)
+            {
+                employee.Country = new Country
+                {
+                    CountryId = 0,
+                    Name = "string"
+                };
+            }
+
+            if (employee.JobCategory == null)
+            {
+                employee.JobCategory = new JobCategory
+                {
+                    JobCategoryId = 0,
+                    JobCategoryName = "string"
+                };
+            }
+            
+            var options = new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+            };
+
+            var employeeJson = new StringContent(JsonSerializer.Serialize(employee, options), Encoding.UTF8, "application/json");
 
             var response = await _httpClient.PostAsync("api/employee",employeeJson);
 
@@ -47,21 +73,31 @@ namespace BakeryShop.App.Services
         }
 
         public async Task UpdateEmployee(Employee employee)
-        {
-            var employeeJson = new StringContent(JsonSerializer.Serialize(employee), Encoding.UTF8, "application/json");
-            var teste = await employeeJson.ReadAsStringAsync();
-            var response = await _httpClient.PutAsync("api/employee", employeeJson);
-
-            // Verificando a resposta do servidor
-            if (!response.IsSuccessStatusCode)
+        { 
+            // Preenchendo os objetos aninhados se estiverem nulos
+            if (employee.Country == null)
             {
-                var errorContent = await response.Content.ReadAsStringAsync();
-                Console.WriteLine("Erro: " + response.StatusCode);
-                Console.WriteLine("Detalhes do Erro: " + errorContent);
-                Console.WriteLine("JSON Enviado: " + await employeeJson.ReadAsStringAsync());
-
+                employee.Country = new Country
+                {
+                    CountryId = employee.CountryId,
+                    Name = employee.Country.Name // ou outro valor padrão
+                };
             }
 
-        }
+            if (employee.JobCategory == null)
+            {
+                employee.JobCategory = new JobCategory
+                {
+                    JobCategoryId = employee.JobCategoryId,
+                    JobCategoryName = employee.JobCategory.JobCategoryName // ou outro valor padrão
+                };
+            }
+
+            var employeeJson = new StringContent(JsonSerializer.Serialize(employee), Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PutAsync("api/employee", employeeJson);
+
+            
+         }
     }
 }

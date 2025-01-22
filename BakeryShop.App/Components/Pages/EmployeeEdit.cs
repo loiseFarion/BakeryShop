@@ -12,57 +12,61 @@ namespace BakeryShop.App.Components.Pages
         public ICountryDataService CountryDataService { get; set; }
         [Inject]
         public IJobCategoryDataService JobCategoryDataService { get; set; }
+        [Inject]
+        public NavigationManager NavigationManager { get; set; }
+
 
         [Parameter]
         public string EmployeeId { get; set; }
 
-        public Employee Employee { get; set; } = new Employee();
-
-        public List<Country> Countries { get; set; } = new List<Country>(); 
-        public List<JobCategory> Jobcategories { get; set; } = new List<JobCategory>(); 
+        public Employee EmployeeForm { get; set; } = new Employee();
+        public List<Country> Countries { get; set; } = new List<Country>();
+        public List<JobCategory> JobCategories { get; set; } = new List<JobCategory>();
 
         protected string CountryId = string.Empty;
-        protected string JobcategoryId = string.Empty;
+        protected string JobCategoryId = string.Empty;
 
-        //State of screen
+        //used to store state of screen
         protected string Message = string.Empty;
         protected string StatusClass = string.Empty;
         protected bool Saved;
+
 
         protected override async Task OnInitializedAsync()
         {
             Saved = false;
             Countries = (await CountryDataService.GetAllCountries()).ToList();
-            Jobcategories = (await JobCategoryDataService.GetAllJobCategories()).ToList();
+            //Employee = await EmployeeDataService.GetEmployeeDetails(int.Parse(EmployeeId));
+            JobCategories = (await JobCategoryDataService.GetAllJobCategories()).ToList();
 
             int.TryParse(EmployeeId, out var employeeId);
 
-            if (employeeId == 0)
+            if (employeeId == 0) //new employee is being created
             {
-                Employee = new Employee { CountryId = 1, JobCategoryId = 1, BirthDate = DateTime.Now, JoinedDate = DateTime.Now};
+                //add some defaults
+                EmployeeForm = new Employee { CountryId = 1, JobCategoryId = 1, BirthDate = DateTime.Now, JoinedDate = DateTime.Now };
             }
             else
             {
-                Employee = await EmployeeDataService.GetEmployeeDetails(int.Parse(EmployeeId));
+                EmployeeForm = await EmployeeDataService.GetEmployeeDetails(int.Parse(EmployeeId));
             }
 
-            CountryId = Employee.CountryId.ToString();
-            JobcategoryId = Employee.JobCategoryId.ToString();
-
+            CountryId = EmployeeForm.CountryId.ToString();
+            JobCategoryId = EmployeeForm.JobCategoryId.ToString();
         }
 
         protected async Task HandleValidSubmit()
         {
             Saved = false;
-            CountryId = Employee.CountryId.ToString();
-            JobcategoryId = Employee.JobCategoryId.ToString();
-            
-            if(Employee.EmployeeId == 0) //new
+            EmployeeForm.CountryId = int.Parse(CountryId);
+            EmployeeForm.JobCategoryId = int.Parse(JobCategoryId);
+
+            if (EmployeeForm.EmployeeId == 0) //new
             {
-                var addedEmployee = await EmployeeDataService.AddEmployee(Employee);
+                var addedEmployee = await EmployeeDataService.AddEmployee(EmployeeForm);
                 if (addedEmployee != null)
                 {
-                    StatusClass = "alert-sucess";
+                    StatusClass = "alert-success";
                     Message = "New employee added successfully.";
                     Saved = true;
                 }
@@ -75,18 +79,38 @@ namespace BakeryShop.App.Components.Pages
             }
             else
             {
-                await EmployeeDataService.UpdateEmployee(Employee);
-                StatusClass = "alert-sucess";
+                JobCategory nameJobCategory = await JobCategoryDataService.GetJobCategorById(EmployeeForm.JobCategoryId);
+                EmployeeForm.JobCategory = nameJobCategory;
+
+                Country nameCountry = await CountryDataService.GetCountryById(EmployeeForm.CountryId);
+                EmployeeForm.Country = nameCountry;
+                await EmployeeDataService.UpdateEmployee(EmployeeForm);
+                StatusClass = "alert-success";
                 Message = "Employee updated successfully.";
                 Saved = true;
             }
-
         }
+
 
         protected void HandleInvalidSubmit()
         {
             StatusClass = "alert-danger";
-            Message = "There are some validation erros. Please try again.";
+            Message = "There are some validation errors. Please try again.";
+        }
+
+        protected async Task DeleteEmployee()
+        {
+            await EmployeeDataService.DeleteEmployee(EmployeeForm.EmployeeId);
+
+            StatusClass = "alert-success";
+            Message = "Deleted successfully";
+
+            Saved = true;
+        }
+
+        protected void NavigateToOverview()
+        {
+            NavigationManager.NavigateTo("/employeeoverview");
         }
     }
 }
