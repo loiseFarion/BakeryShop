@@ -201,3 +201,23 @@ nav {
         background-color: #B2D9EA !important;
         border-color: #B2D9EA !important;
     }
+
+
+.text-center .btn-primary {
+    color: #fff;
+    background-color: #84B4C8 !important;
+    border-color: #84B4C8 !important;
+}
+
+.text-center .btn-outline-primary {
+    color: #84B4C8;
+    background-color: #fff !important;
+    border-color: #84B4C8 !important;
+}
+
+/* Estilo do botão quando estiver em foco (clicado) */
+.text-center .btn-primary:focus, .text-center .btn-outline-primary:focus{
+    outline: none; /* Remove o outline padrão */
+    box-shadow: 0 0 0 4px #619196; /* Adiciona uma borda laranja */
+    border-color: #619196; /* Altera a cor da borda */
+}

@@ -9,10 +9,14 @@ namespace BakeryShop.Api.Controllers
     public class EmployeeController : Controller
     {
         private readonly IEmployeeRepository _employeeRepository;
+        private readonly ICountryRepository _countryRepository;
+        private readonly IJobCategoryRepository _jobCategoryRepository;
 
-        public EmployeeController(IEmployeeRepository employeeRepository)
+        public EmployeeController(IEmployeeRepository employeeRepository, ICountryRepository countryRepository, IJobCategoryRepository jobCategoryRepository)
         {
             _employeeRepository = employeeRepository;
+            _countryRepository = countryRepository;
+            _jobCategoryRepository = jobCategoryRepository;
         }
 
         [HttpGet]
@@ -41,6 +45,19 @@ namespace BakeryShop.Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            var countryId = _countryRepository.GetCountryById(employee.CountryId);
+            var jobCategoryId = _jobCategoryRepository.GetJobCategoryById(employee.JobCategoryId);
+            
+            if (countryId != null)
+            {
+                employee.Country = null;
+            }
+            if(jobCategoryId != null)
+            {
+                employee.JobCategory = null;
+            }
+            
+            
             var createdEmployee = _employeeRepository.AddEmployee(employee);
 
             return Created("employee", createdEmployee);

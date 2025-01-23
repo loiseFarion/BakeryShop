@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BakeryShop.Shared\BakeryShop.Shared.csproj" />
+    <ProjectReference Include="..\BakeyShop.ComponentsLibrary\BakeryShop.ComponentsLibrary.csproj" />
   </ItemGroup>
 
 </Project>

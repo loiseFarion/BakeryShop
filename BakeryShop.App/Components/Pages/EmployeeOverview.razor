@@ -1,4 +1,6 @@
 ﻿@page "/employeeoverview"
+@using BakeryShop.App.Components.Dialog;
+@rendermode InteractiveServer
 
 <h1 class="page-title">Employees</h1>
 
@@ -9,7 +11,7 @@
 else
 {
     <table class="table">
-        <thread>
+        <thead>
             <tr>
                 <th></th>
                 <th>Employee ID</th>
@@ -17,7 +19,7 @@ else
                 <th>Last name</th>
                 <th></th>
             </tr>
-        </thread>
+        </thead>
 
         <tbody>
             @foreach (var employee in Employees)
@@ -41,3 +43,7 @@ else
         </tbody>
     </table>
 }
+
+
+<button @onclick="QuickAddEmployee" class= "btn btn-dark table-btn quick-add-btn"> + </button>
+<AddEmployeeDialog @ref="AddEmployeeDialog" CloseEventCallback="@AddEmployeeDialog_OnDialogClos"></AddEmployeeDialog>

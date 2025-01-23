@@ -45,7 +45,7 @@ namespace BakeryShop.App.Services
             };
 
             var employeeJson = new StringContent(JsonSerializer.Serialize(employee, options), Encoding.UTF8, "application/json");
-
+            var teste = employeeJson.ReadAsStringAsync();
             var response = await _httpClient.PostAsync("api/employee",employeeJson);
 
             if (response.IsSuccessStatusCode)
@@ -62,7 +62,7 @@ namespace BakeryShop.App.Services
             await _httpClient.DeleteAsync($"api/employee/{employeeId}");
         }
 
-        public async Task<IEnumerable<Employee>> GetAllEmployes()
+        public async Task<IEnumerable<Employee>> GetAllEmployees()
         {
             return await JsonSerializer.DeserializeAsync<IEnumerable<Employee>>(await _httpClient.GetStreamAsync($"api/employee"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
         }

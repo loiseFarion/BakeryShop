@@ -4,7 +4,7 @@ namespace BakeryShop.App.Services.Interfaces
 {
     public interface IEmployeeDataService
     {
-        Task<IEnumerable<Employee>> GetAllEmployes();
+        Task<IEnumerable<Employee>> GetAllEmployees();
         Task<Employee> GetEmployeeDetails(int employeeId);
         Task<Employee> AddEmployee(Employee employee);
         Task UpdateEmployee(Employee employee);
